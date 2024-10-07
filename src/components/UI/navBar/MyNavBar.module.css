@@ -1,0 +1,17 @@
+.mynavbar {
+    background-color: black; /* Цвет фона */
+}
+
+.mynavbar ul {
+    list-style: none; /* Убираем маркеры списка */
+    display: flex; /* Выравниваем элементы по горизонтали */
+    justify-content: space-between; /* Равномерно распределяем элементы */
+}
+
+/* Стили для ссылок */
+.mynavbar div {
+    text-decoration: none; /* Удаляем подчёркивание */
+    font-size: 16px; /* Размер шрифта */
+    margin: 5px; /* Расстояние между ссылками */
+    color: pink; /* Розовый цвет текста */
+}

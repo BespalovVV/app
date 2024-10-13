@@ -27,9 +27,9 @@ function Posts() {
     const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query)
 
     const [fetchPosts, isPostLoading, postError] = useFetching(async () => {
-        const responce = await PostService.getAll();
-        setPosts(responce.data)
-        setTotalCount(responce.headers['x-total-count'])
+        const response = await PostService.getAll();
+        setPosts(response.data)
+        setTotalCount(response.headers['x-total-count'])
     })
 
     useEffect(

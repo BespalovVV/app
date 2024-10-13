@@ -10,7 +10,6 @@ import Login from "../pages/Login";
 
 const AppRouter = () => {
     const { isAuth, setIsAuth } = useContext(AuthContext);
-    console.log(isAuth)
     return (
         isAuth
             ? <Routes>

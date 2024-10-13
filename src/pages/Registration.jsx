@@ -4,15 +4,13 @@ import MyButton from "../components/UI/button/MyButton";
 import { AuthContext } from "../context";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import UserService from "../API/UserService";
 import { useFetching } from "../hooks/useFetching";
 
 const Registration = () => {
     const { register, handleSubmit, errors } = useForm({
         mode: "onBlur",
     });
-    const onSubmit = (e, data) => {
-        e.preventDefault()
+    const onSubmit = (data) => {
         data.age = Number(data.age)
         console.log(data)
         try {

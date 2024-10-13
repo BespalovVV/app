@@ -11,7 +11,12 @@ function MyNavBar() {
         e.preventDefault()
         setIsAuth(false);
         localStorage.removeItem('auth');
-        const responce = axios.get('http://localhost:8080/api/logout')
+        const responce = axios.get('http://localhost:8080/api/logout').then(
+            function (response) {
+                localStorage.removeItem('token')
+                localStorage.removeItem('user_id')
+            }
+        )
     }
     return (
         <nav className={classes.mynavbar}>
@@ -21,10 +26,10 @@ function MyNavBar() {
             <ul>
                 <div><Link to="/">Главная</Link></div>
                 <div><Link to="/about">О нас</Link></div>
-                <div><Link to="/posts">Посты</Link></div>
+                <div><Link to="/api/posts">Посты</Link></div>
                 <div><Link to="/registration">Зарегистрироваться</Link></div>
                 <div><Link to="/login">Войти</Link></div>
-                <div><Link to="/Profile/:id">Профиль</Link></div>
+                <div><Link to="/api/Profile/:id">Профиль</Link></div>
                 {/* Другие ссылки */}
             </ul>
         </nav>

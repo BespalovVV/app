@@ -26,7 +26,7 @@ const PostShow = () => {
             post page//// = {params.id}
             {isPostLoading
             ? <MyLoading/>
-            :<div>{post.id}. {post.post_name}</div>
+            :<div>{post.id}. {post.title}</div>
             }
 
             <h1>
@@ -37,7 +37,7 @@ const PostShow = () => {
             : <div>{comments.map(comm =>
                 <div key={comm.id} style={{marginTop: 15}}>
                     <h5>{comm.owner_id}</h5>
-                    <h5>{comm.comm_body}</h5>
+                    <h5>{comm.body}</h5>
                 </div>
             )}</div>
             }

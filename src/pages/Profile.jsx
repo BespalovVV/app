@@ -6,11 +6,9 @@ import MyLoading from '../components/UI/Loader/MyLoading';
 import { useParams } from 'react-router-dom';
 
 function Profile() {
-    const params = useParams()
-    console.log(params)
     const [user, setUser] = useState({})
     const [fetchUserById, isUserLoading, error] = useFetching(async (id) => {
-        const responce = await UserService.getUserById("2")
+        const responce = await UserService.getUserById(localStorage.getItem('user_id'))
         setUser(responce.data);
     })
     useEffect(() => {

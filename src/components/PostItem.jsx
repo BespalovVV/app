@@ -14,8 +14,7 @@ const PostItem = (props) => {
                     </div>
                 </div>
                 <div className='post__btns'>
-                    <MyButton onClick={() => navigate(`/api/posts/${props.post.id}`)}>Open</MyButton>
-                    <MyButton onClick={() => props.remove(props.post)}>Delete</MyButton>
+                    <MyButton onClick={() => navigate(`/posts/${props.post.id}`)}>Open</MyButton>
                 </div>
             </div>
         </div>

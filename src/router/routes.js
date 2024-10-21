@@ -8,9 +8,9 @@ import Registration from "../pages/Registration"
 
 export const privateRoutes = [
     {path: '/about', component: About, exact: true},
-    {path: '/api/posts', component: Posts, exact: true},
-    {path: '/api/posts/:id', component: PostShow, exact: true},
-    {path: '/api/profile/:id', component: Profile, exact: true},
+    {path: '/posts', component: Posts, exact: true},
+    {path: '/posts/:id', component: PostShow, exact: true},
+    {path: '/profile/:id', component: Profile, exact: true},
 ]
 
 export const publicRoutes = [

@@ -41,3 +41,60 @@
 .post__btns {
     display: flex;
 }
+.post {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.post-title {
+    color: #333;
+}
+
+.post-content {
+    color: #555;
+}
+
+.comments-section {
+    margin-top: 20px;
+}
+
+.comments-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.comment-item {
+    background-color: #e7e7e7;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 3px;
+}
+
+.add-comment {
+    display: flex;
+    margin-top: 10px;
+}
+
+.add-comment input {
+    flex: 1;
+    padding: 5px;
+    margin-right: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.add-comment button {
+    padding: 5px 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.add-comment button:hover {
+    background-color: #218838;
+}

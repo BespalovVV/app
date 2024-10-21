@@ -1,9 +1,13 @@
 .myBtn {
     padding: 5px 15px;
-    color: teal;
+    color: #4A90E2;
     font-size: 14px;
     background: transparent;
-    border: 1px solid teal;
+    border: 0px;
     cursor: pointer;
     margin-right: 10px;
+}
+.myBtn :hover {
+    background-color: #4A90E2;
+    border-radius: 5px;
 }

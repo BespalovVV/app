@@ -1,4 +1,5 @@
 import axios, { AxiosHeaders } from "axios";
+import Endpoint from "./endpoints";
 export function getToken() {
     const token = localStorage.getItem('token');
     return token;
@@ -9,7 +10,7 @@ export default class PostService {
             const token = getToken(); // Получаем токен из localStorage
             const headers = new Headers();
             headers.append('Authorization', 'Bearer ' + token);
-            const responce = await axios.get('http://localhost:8080/api/posts', { headers })
+            const responce = await axios.get(Endpoint.HOST + 'api/posts', { headers })
             return responce
         } catch (e) {
             console.log(e);
@@ -19,7 +20,7 @@ export default class PostService {
         const token = getToken(); // Получаем токен из localStorage
         const headers = new Headers();
         headers.append('Authorization', 'Bearer ' + token);
-        const URL = 'http://localhost:8080/api/posts/' + id
+        const URL = Endpoint.HOST + 'api/posts/' + id
         const responce = await axios.get(URL, { headers })
         return responce
     }
@@ -28,7 +29,7 @@ export default class PostService {
         const headers = new Headers();
         console.log(headers);
         headers.append('Authorization', 'Bearer ' + token);
-        const URL = `http://localhost:8080/api/posts/${id}/comments`;
+        const URL = Endpoint.HOST + `api/posts/${id}/comments`;
         const responce = await axios.get(URL, { headers })
         return responce
     }
@@ -36,11 +37,23 @@ export default class PostService {
         const token = getToken(); // Получаем токен из localStorage
         const headers = new Headers();
         headers.append('Authorization', 'Bearer ' + token);
-        const URL = `http://localhost:8080/api/posts/create`;
+        const URL = Endpoint.HOST + `api/posts`;
         console.log(headers);
         const responce = await axios.post(URL, data, {headers: {
             'Authorization': 'Bearer ' + token
         }})
         return responce
     }
+    static async GetUserPost(id) {
+        const token = getToken(); // Получаем токен из localStorage
+        const headers = new Headers();
+        headers.append('Authorization', 'Bearer ' + token);
+        const URL = Endpoint.HOST + `api/users/${id}/posts`;
+        console.log(headers);
+        const responce = await axios.get(URL, {headers: {
+            'Authorization': 'Bearer ' + token
+        }})
+        return responce
+    }
+
 }

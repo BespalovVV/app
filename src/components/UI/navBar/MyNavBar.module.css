@@ -1,17 +1,25 @@
-.mynavbar {
-    background-color: black; /* Цвет фона */
+.navbar {
+    background-color: #FFD93D;
+    padding: 15px;
+    margin-bottom: 10px;
 }
 
-.mynavbar ul {
-    list-style: none; /* Убираем маркеры списка */
-    display: flex; /* Выравниваем элементы по горизонтали */
-    justify-content: space-between; /* Равномерно распределяем элементы */
+.navbarlist {
+    list-style-type: none;
+    margin: 10px;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
 }
 
-/* Стили для ссылок */
-.mynavbar div {
-    text-decoration: none; /* Удаляем подчёркивание */
-    font-size: 16px; /* Размер шрифта */
-    margin: 5px; /* Расстояние между ссылками */
-    color: pink; /* Розовый цвет текста */
+.navbaritem a {
+    color: #FF6F61;
+    text-decoration: none;
+    padding: 10px 15px;
+    transition: background-color 0.3s;
+}
+
+.navbaritem a:hover {
+    background-color: #4A90E2;
+    border-radius: 5px;
 }

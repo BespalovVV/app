@@ -8,29 +8,26 @@ import axios from 'axios';
 function MyNavBar() {
     const {isAuth, setIsAuth} = useContext(AuthContext)
     const logout = (e) => {
-        e.preventDefault()
+        e.preventDefault();
         setIsAuth(false);
         localStorage.removeItem('auth');
-        const responce = axios.get('http://localhost:8080/api/logout').then(
-            function (response) {
-                localStorage.removeItem('token')
-                localStorage.removeItem('user_id')
-            }
-        )
+        localStorage.removeItem('token');
+        localStorage.removeItem('user_id');
     }
+    const profile_link = /profile/ + localStorage.getItem('user_id')
     return (
         <nav className={classes.mynavbar}>
-            <MyButton onClick={logout}>
-                Logout
-            </MyButton>
-            <ul>
-                <div><Link to="/">Главная</Link></div>
-                <div><Link to="/about">О нас</Link></div>
-                <div><Link to="/api/posts">Посты</Link></div>
-                <div><Link to="/registration">Зарегистрироваться</Link></div>
-                <div><Link to="/login">Войти</Link></div>
-                <div><Link to="/api/Profile/:id">Профиль</Link></div>
+            <ul className={classes.navbarlist}>
+                <div className={classes.navbaritem}><Link to="/">Главная</Link></div>
+                <div className={classes.navbaritem}><Link to="/about">О нас</Link></div>
+                <div className={classes.navbaritem}><Link to="/posts">Посты</Link></div>
+                <div className={classes.navbaritem}><Link to="/registration">Зарегистрироваться</Link></div>
+                <div className={classes.navbaritem}><Link to="/login">Войти</Link></div>
+                <div className={classes.navbaritem}><Link to={profile_link}>Профиль</Link></div>
                 {/* Другие ссылки */}
+                <MyButton onClick={logout} className={classes.navbaritem}>
+                    Выйти
+                </MyButton>
             </ul>
         </nav>
     );

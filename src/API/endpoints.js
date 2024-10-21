@@ -1,10 +1,3 @@
-const Endpoints = {
-    AUTH:{
-        LOGIN: "/login",
-        REFRESH: "/refresh",
-        LOGOUT: "/logout",
-        PROFILE: "/profile",
-    }
-}
+const Endpoint = {HOST: "http://localhost:8080/"}
 
-export default Endpoints;
+export default Endpoint;

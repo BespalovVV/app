@@ -34,6 +34,7 @@ export default class PostService {
         return responce
     }
     static async CreatePost(data) {
+        data.isprivate = data.isprivate === 'true';
         const token = getToken(); // Получаем токен из localStorage
         const headers = new Headers();
         headers.append('Authorization', 'Bearer ' + token);

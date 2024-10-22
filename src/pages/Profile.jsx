@@ -42,14 +42,14 @@ function Profile() {
         setModal(false)
     }
     return (
-        <div>
-            <h2>Профиль пользователя</h2>
+        <div className="profile-container">
+            <h2 className="profile-header">Профиль пользователя</h2>
             {isUserLoading
                 ? <MyLoading />
-                : <dl>
-                    <dt>Имя:</dt>
+                : <dl className="profile-info">
+                    <h2>Имя:</h2>
                     <dd>{user.name}</dd>
-                    <dt>Фамилия:</dt>
+                    <h2>Фамилия:</h2>
                     <dd>{user.surname}</dd>
                     <dt>Возраст:</dt>
                     <dd>{user.age}</dd>
@@ -60,12 +60,12 @@ function Profile() {
                 </dl>
             }
             <MyButton style={{ marginTop: 30 }} onClick={() => setModal(true)} >
-                Create Post
+                Создать пост
             </MyButton>
             <MyModal visible={modal} setVisible={setModal}>
                 <PostForm create={createPost} />
             </MyModal>
-            <PostList remove={removePost} posts={posts} title={'name of list of posts:'} />
+            <PostList remove={removePost} posts={posts} title={'Посты пользователя:'} />
         </div>
     );
 }

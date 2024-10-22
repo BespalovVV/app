@@ -2,7 +2,7 @@
     width: 200px;
     height: 200px;
     border-radius: 50%;
-    border: 5px dashed purple;
+    border: 5px dashed #FF6F61;
     animation: rotate 0.5s infinite linear;
 }
 

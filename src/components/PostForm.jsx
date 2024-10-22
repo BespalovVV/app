@@ -11,12 +11,15 @@ const PostForm = ({Create}) => {
     });
     const onSubmit = async (data) => {
         const response = await PostService.CreatePost(data)
+        data.isprivate = data.isprivate === 'true'
         console.log(response)
     }
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <MyInput {...register('title', { required: true })} label="title" type="title" placeholder="title" id="title" name="title" />
             <MyInput {...register('body', { required: true })} label="body" type="body" placeholder="body" id="body" name="body" />
+            <div>Сделать приватным?</div>
+            <MyInput {...register('isprivate', { required: false })} type="checkbox" value='true'/>
             <MyButton>Create post</MyButton>
         </form>
     )

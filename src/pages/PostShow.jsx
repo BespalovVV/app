@@ -6,6 +6,8 @@ import MyLoading from "../components/UI/Loader/MyLoading";
 import MyButton from "../components/UI/button/MyButton";
 import MyInput from "../components/UI/input/MyInput";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
+import PostItem from "../components/PostItem/PostItem";
+import Comment from "../components/CommentItem/Comment";
 const PostShow = () => {
     const params = useParams()
     const [post, setPost] = useState({})
@@ -33,32 +35,18 @@ const PostShow = () => {
 
     return (
         <div>
-            <div className="post">
-                <h2 className="post-title">{post.title}</h2>
-                <p className="post-content">
-                    Это содержимое поста. Здесь можно разместить текст, изображения и другую информацию.
-                    {post.body}
-                </p>
-            </div>
-            <div className="comments-section">
+            <PostItem post={post} />
+            <div>
                 <h3>Комментарии</h3>
-                <TransitionGroup>
                     {comments.map((comment, index) =>
-                        <CSSTransition
+                        <Comment
                             key={index}
-                            timeout={500}
-                            classNames="comment-item"
+                            username="nameuser"
+                            comment = {comment}
+                            post = {post.owner_id}
                         >
-                            {comment.owner_id == localStorage.getItem('user_id') || post.owner_id == localStorage.getItem('user_id')
-                            ? <div className="comment-item">
-                                {comment.body}
-                                <MyButton>Удалить</MyButton>
-                            </div>
-                            : <div className="comment-item">{comment.body}</div>
-                            }
-                        </CSSTransition>
+                        </Comment>
                     )}
-                </TransitionGroup>
                 <div className="add-comment">
                     <MyInput
                         type="text"
@@ -66,7 +54,7 @@ const PostShow = () => {
                         onChange={(e) => setCommentText(e.target.value)}
                         placeholder="Ваш комментарий"
                     />
-                    <MyButton onClick={handleAddComment}>Добавить комментарий</MyButton>
+                    <MyButton className="green" onClick={handleAddComment}>Добавить комментарий</MyButton>
                 </div>
             </div>
         </div>

@@ -11,6 +11,20 @@
     /* Отступы сверху и снизу между постами */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     /* Легкая тень */
+    word-wrap: break-word;
+    /* Перенос длинных слов */
+    overflow-wrap: break-word;
+    /* Для поддержки современных браузеров */
+    word-break: break-all;
+    /* Принудительный перенос длинных слов */
+    white-space: normal;
+    /* Позволяет переносить текст */
+    display: flex;
+    /* Используем Flexbox */
+    flex-direction: column;
+    /* Располагаем элементы по вертикали */
+    align-items: center;
+    /* Центрируем по горизонтали */
 }
 
 .post-header {
@@ -42,9 +56,9 @@
 }
 
 .post-image {
-    width: 100%;
+    max-width: 100%;
     /* Ширина изображения 100% */
-    max-height: 300px;
+    max-height: auto;
     /* Максимальная высота изображения */
     object-fit: cover;
     /* Заполнение контейнера без искажения */

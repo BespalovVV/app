@@ -48,8 +48,8 @@ function Posts() {
 
     return (
         <div className='App'>
-            <MyButton style={{ marginTop: 30 }} onClick={() => setModal(true)} >
-                Create Post
+            <MyButton className='green' style={{marginTop: '20px'}} onClick={() => setModal(true)} >
+                Создать пост
             </MyButton>
             <MyModal visible={modal} setVisible={setModal}>
                 <PostForm create={createPost} />
@@ -63,7 +63,7 @@ function Posts() {
                 ? <div style={{ display: "flex", justifyContent: "center", marginTop: "190px" }}>
                     <MyLoading />
                 </div>
-                : <PostList remove={removePost} posts={sortedAndSearchedPosts} title={'name of list of posts:'} />
+                : <PostList remove={removePost} posts={sortedAndSearchedPosts} />
             }
         </div>
     );

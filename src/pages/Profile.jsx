@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import UserService from '../API/UserService';
 import { useFetching } from '../hooks/useFetching';
@@ -36,30 +35,39 @@ function Profile() {
     const removePost = (post) => {
         setPosts(posts.filter(p => p.id !== post.id))
     }
+    const styles = {
+        container: {
+            border: '1px solid #ccc',
+            borderRadius: '8px',
+            padding: '16px',
+            textAlign: 'center',
+        },
+        photo: {
+            borderRadius: '50%',
+            width: '100px',
+            height: '100px',
+        },
+    };
     const [modal, setModal] = useState(false)
     const createPost = (newPost) => {
         setPosts([...posts, newPost])
         setModal(false)
     }
+    const photoUrl = 'https://animego.org/media/cache/thumbs_250x350/upload/anime/images/66ebd84b4d6a1541820597.jpg'
     return (
-        <div className="profile-container">
-            <h2 className="profile-header">Профиль пользователя</h2>
+        <div style={styles.container}>
             {isUserLoading
                 ? <MyLoading />
                 : <dl className="profile-info">
-                    <h2>Имя:</h2>
-                    <dd>{user.name}</dd>
-                    <h2>Фамилия:</h2>
-                    <dd>{user.surname}</dd>
-                    <dt>Возраст:</dt>
-                    <dd>{user.age}</dd>
-                    <dt>Описание:</dt>
-                    <dd dangerouslySetInnerHTML={{ __html: user.description }} />
-                    <dt>Дата регистрации:</dt>
-                    <dd>{new Date(user.date).toLocaleDateString('ru-RU', options)}</dd>
+                    <img src={photoUrl} alt={`${user.name} ${user.surname}`} style={styles.photo} />
+                    <h1>{user.name} {user.surname}</h1>
+                    <h2>Возраст: {user.age}</h2>
+                    <h3>Описание:</h3>
+                    <h3>{ user.description }</h3>
+                    <dt>Дата регистрации: {new Date(user.date).toLocaleDateString('ru-RU', options)}</dt>
                 </dl>
             }
-            <MyButton style={{ marginTop: 30 }} onClick={() => setModal(true)} >
+            <MyButton className="green" onClick={() => setModal(true)} >
                 Создать пост
             </MyButton>
             <MyModal visible={modal} setVisible={setModal}>

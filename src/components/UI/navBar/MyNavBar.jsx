@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import MyButton from '../button/MyButton';
 import { AuthContext } from '../../../context';
 import './MyNavBar.css';
@@ -19,15 +19,24 @@ function MyNavBar() {
         setIsOpen(!isOpen);
     };
     const profile_link = /profile/ + localStorage.getItem('user_id')
-    const links = [
-        { name: 'Главная', path: '/' },
-        { name: 'О нас', path: '/about' },
-        { name: 'Contact', path: '/contact' },
-        { name: 'Новости', path: '/posts' },
-        { name: 'Зарегистрироваться', path: '/registration' },
-        { name: 'Войти', path: '/login' },
+    let links = [
         { name: 'Мой профиль', path: profile_link },
+        { name: 'Новости', path: '/posts' },
+        { name: 'Поиск', path: '/search' },
+        { name: 'О нас', path: '/about' },
     ];
+    let check = localStorage.getItem('auth');
+    if (check == null) {
+        links = [
+            { name: 'О нас', path: '/about' },
+            { name: 'Зарегистрироваться', path: '/registration' },
+            
+        ]
+    }
+    const navigate = useNavigate();
+    const handleRedirect = () => {
+        navigate('/login');
+    };
     return (
         <div className={`navbar ${isOpen ? 'open' : 'closed'}`}>
             <MyButton className="toggle-button" onClick={toggleNavbar}>
@@ -44,9 +53,15 @@ function MyNavBar() {
                     </Link>
                 ))}
             </div>
-            <MyButton className="toggle-button red" onClick={logout}>
-                Выйти
+            {check == null
+                ?<MyButton className="toggle-button green" onClick={handleRedirect}>
+                Войти
             </MyButton>
+            : <MyButton className="toggle-button red" onClick={logout}>
+                    Выйти
+                </MyButton>
+            }
+
         </div>
     );
 }

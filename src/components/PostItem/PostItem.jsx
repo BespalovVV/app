@@ -13,7 +13,7 @@ const PostItem = (props) => {
                 </Link>
             </div>
             <h2 className="post-title">{props.post.title}</h2>
-            {'https://animego.org/media/cache/thumbs_250x350/upload/anime/images/66ebd84b4d6a1541820597.jpg' && <img src={'https://animego.org/media/cache/thumbs_250x350/upload/anime/images/66ebd84b4d6a1541820597.jpg'} alt={props.post.title} className="post-image" />}
+            {props.imgurl && <img src={props.imgurl} alt={props.post.title} className="post-image" />}
             <h3 className="post-content">{props.post.body}</h3>
             <div>
                 <MyButton className="green" onClick={() => navigate(`/posts/${props.post.id}`)}>Открыть</MyButton>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import '../styles/App.css'
 import PostList from '../components/PostList';
 import MyButton from '../components/UI/button/MyButton';
-import PostForm from '../components/PostForm';
+import PostForm from '../components/PostForm/PostForm';
 import PostFilter from '../components/PostFilter';
 import MyModal from '../components/UI/Modal/MyModal';
 import { usePosts } from '../hooks/usePosts';

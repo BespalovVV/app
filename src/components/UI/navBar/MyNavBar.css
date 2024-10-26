@@ -7,10 +7,10 @@
     align-items: center;
     background-color: #282c34;
     padding: 1rem;
-    width: 90%;
-    height: 10vh;
+    width: 100%;
     margin: auto;
     border-radius: 10px;
+    max-height: auto;
     transition: max-height 0.3s ease;
     /* Плавный переход при открытии/закрытии */
     overflow: hidden;

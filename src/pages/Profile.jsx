@@ -7,7 +7,7 @@ import PostService from '../API/PostService';
 import PostList from '../components/PostList';
 import MyModal from '../components/UI/Modal/MyModal';
 import MyButton from '../components/UI/button/MyButton';
-import PostForm from '../components/PostForm';
+import PostForm from '../components/PostForm/PostForm';
 
 function Profile() {
     const [user, setUser] = useState({})

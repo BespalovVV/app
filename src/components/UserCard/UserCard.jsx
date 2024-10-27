@@ -1,8 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './UserCard.css'; // Импортируем обычный CSS
+import MyButton from '../UI/button/MyButton';
 
-const UserCard = ({ user, className }) => {
+const UserCard = ({ user, className, textV, classV }) => {
     const navigate = useNavigate();
 
     const handleProfileRedirect = () => {
@@ -11,19 +12,28 @@ const UserCard = ({ user, className }) => {
 
     const handleAddFriend = () => {
         // Логика для добавления в друзья
-        console.log(`Добавить ${user.firstName} ${user.lastName} в друзья`);
+        console.log(`Добавить ${user.name} ${user.surname} в друзья`);
+    };
+    const handleDeleteFriend = () => {
+        // Логика для удаления из друзей
+        console.log(`Удалить ${user.name} ${user.surname} из друзья`);
     };
 
     return (
         <div className={`card ${className}`}>
-            <img src={user.photoUrl} alt={`${user.firstName} ${user.lastName}`} className="photo" />
+            <img src={user.image.String} alt={`${user.name} ${user.surname}`} className="photo" onClick={handleProfileRedirect} />
             <div className="info">
                 <div className="name" onClick={handleProfileRedirect}>
-                    {user.firstName} {user.lastName}
+                    {user.name} {user.surname}
                 </div>
-                <button onClick={handleAddFriend} className="addButton">
-                    Добавить в друзья
-                </button>
+                {classV == 'green'
+                    ? <MyButton onClick={handleAddFriend} className={`${classV}`}>
+                        {textV}
+                    </MyButton>
+                    : <MyButton onClick={handleDeleteFriend} className={`${classV}`}>
+                        {textV}
+                    </MyButton>
+                }
             </div>
         </div>
     );

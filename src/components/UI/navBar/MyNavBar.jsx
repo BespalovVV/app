@@ -23,6 +23,7 @@ function MyNavBar() {
         { name: 'Мой профиль', path: profile_link },
         { name: 'Новости', path: '/posts' },
         { name: 'Поиск', path: '/search' },
+        { name: 'Друзья', path: '/friends' },
         { name: 'О нас', path: '/about' },
     ];
     let check = localStorage.getItem('auth');

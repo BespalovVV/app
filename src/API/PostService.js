@@ -45,6 +45,17 @@ export default class PostService {
         }})
         return responce
     }
+    static async CreateComment(data) {
+        const token = getToken(); // Получаем токен из localStorage
+        const headers = new Headers();
+        headers.append('Authorization', 'Bearer ' + token);
+        const URL = Endpoint.HOST + `api/comments`;
+        console.log(headers);
+        const responce = await axios.post(URL, data, {headers: {
+            'Authorization': 'Bearer ' + token
+        }})
+        return responce
+    }
     static async GetUserPost(id) {
         const token = getToken(); // Получаем токен из localStorage
         const headers = new Headers();

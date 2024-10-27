@@ -24,4 +24,20 @@ export default class UserService {
         const responce = await axios.post(URL,data)
         return responce
     }
+    static async GetUsersNotFriend() {
+        const token = getToken(); // Получаем токен из localStorage
+        const headers = new Headers();
+        headers.append('Authorization', 'Bearer ' + token);
+        const URL = Endpoint.HOST + 'api/notfriends';
+        const responce = await axios.get(URL, {headers})
+        return responce
+    }
+    static async GetUsersFriend() {
+        const token = getToken(); // Получаем токен из localStorage
+        const headers = new Headers();
+        headers.append('Authorization', 'Bearer ' + token);
+        const URL = Endpoint.HOST + 'api/friends';
+        const responce = await axios.get(URL, {headers})
+        return responce
+    }
 }

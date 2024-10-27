@@ -1,8 +1,8 @@
 import React, {useState} from "react";
-import classes from './MyButton.css';
+import './MyButton.css';
 const MyButton = ({ onClick, children, className = '', ...props }) => {
     return (
-        <button {...props} className={`custom-button ${className}`} onClick={onClick}>
+        <button className={`custom-button ${className}`} onClick={onClick} {...props}>
             {children}
         </button>
     )

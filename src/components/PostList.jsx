@@ -17,7 +17,7 @@ const PostList = ({ posts, title, remove }) => {
                         key={post.id}
                         timeout={500}
                         classNames="post"
-                        imgurl={post.image.String}
+                        imgurl={post.image ? post.image.String : ""}
                     >
                         <PostItem remove={remove} number={index + 1} post={post} />
                     </CSSTransition>

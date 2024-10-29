@@ -27,7 +27,6 @@ export default class PostService {
     static async getCommentsByPostId(id) {
         const token = getToken(); // Получаем токен из localStorage
         const headers = new Headers();
-        console.log(headers);
         headers.append('Authorization', 'Bearer ' + token);
         const URL = Endpoint.HOST + `api/posts/${id}/comments`;
         const responce = await axios.get(URL, { headers })
@@ -39,7 +38,6 @@ export default class PostService {
         const headers = new Headers();
         headers.append('Authorization', 'Bearer ' + token);
         const URL = Endpoint.HOST + `api/posts`;
-        console.log(headers);
         const responce = await axios.post(URL, data, {headers: {
             'Authorization': 'Bearer ' + token
         }})
@@ -50,7 +48,6 @@ export default class PostService {
         const headers = new Headers();
         headers.append('Authorization', 'Bearer ' + token);
         const URL = Endpoint.HOST + `api/comments`;
-        console.log(headers);
         const responce = await axios.post(URL, data, {headers: {
             'Authorization': 'Bearer ' + token
         }})
@@ -61,8 +58,17 @@ export default class PostService {
         const headers = new Headers();
         headers.append('Authorization', 'Bearer ' + token);
         const URL = Endpoint.HOST + `api/users/${id}/posts`;
-        console.log(headers);
         const responce = await axios.get(URL, {headers: {
+            'Authorization': 'Bearer ' + token
+        }})
+        return responce
+    }
+    static async DeleteComment(id) {
+        const token = getToken(); // Получаем токен из localStorage
+        const headers = new Headers();
+        headers.append('Authorization', 'Bearer ' + token);
+        const URL = Endpoint.HOST + `api/comments/` + id;
+        const responce = await axios.delete(URL, {headers: {
             'Authorization': 'Bearer ' + token
         }})
         return responce

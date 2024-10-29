@@ -37,8 +37,7 @@ function Posts() {
             fetchPosts()
         }, [])
 
-    const createPost = (newPost) => {
-        setPosts([...posts, newPost])
+    const createPost = () => {
         setModal(false)
     }
 
@@ -52,7 +51,7 @@ function Posts() {
                 Создать пост
             </MyButton>
             <MyModal visible={modal} setVisible={setModal}>
-                <PostForm create={createPost} />
+                <PostForm createPost={createPost} />
             </MyModal>
             <hr style={{ margin: '15px 0' }} />
             <PostFilter filter={filter} setFilter={setFilter} />

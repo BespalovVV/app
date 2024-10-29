@@ -17,6 +17,7 @@ const PostItem = (props) => {
             <h3 className="post-content">{props.post.body}</h3>
             <div>
                 <MyButton className="green" onClick={() => navigate(`/posts/${props.post.id}`)}>Открыть</MyButton>
+                {props.post.owner_id == localStorage.getItem('user_id') ?<MyButton className="red" onClick={() => navigate(`/posts/${props.post.id}`)}>Удалить</MyButton> :''}
             </div>
         </div>
     );

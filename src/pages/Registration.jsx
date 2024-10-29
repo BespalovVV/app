@@ -28,7 +28,7 @@ const Registration = () => {
                 <MyInput {...register('age', { required: true })} label="Возраст" type="number" placeholder="Введите возраст" id="age" name="age" />
                 <MyInput {...register('name', { required: true })} label="Имя" type="text" placeholder="Введите имя" id="name" name="name" />
                 <MyInput {...register('surname', { required: true })} label="Фамилия" type="text" placeholder="Введите фамилию" id="surname" name="surname" />
-                <MyButton>Registration</MyButton>
+                <MyButton  className="green">Registration</MyButton>
             </form>
         </div>
     )

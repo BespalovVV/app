@@ -16,17 +16,28 @@ const PostShow = () => {
     const [img, setImg] = useState([]);
 
     const [fetchPostById, isPostLoading, postError] = useFetching(async () => {
-        const response = await PostService.getById(params.id);
-        setPost(response.data);
-        setImg(response.data.image.String)
+        try {
+            const response = await PostService.getById(params.id);
+            setPost(response.data);
+            setImg(response.data.image.String);
+        } catch (error) {
+            const errorMessage = error.response ? error.response.data.error : error.message;
+            throw new Error(errorMessage);
+        }
     });
 
     const [fetchComments, isCommLoading, commError] = useFetching(async () => {
-        const response = await PostService.getCommentsByPostId(params.id);
-        setComments(response.data);
+        try {
+            const response = await PostService.getCommentsByPostId(params.id);
+            setComments(response.data);
+        } catch (error) {
+            const errorMessage = error.response ? error.response.data.error : error.message;
+            throw new Error(errorMessage);
+        }
     });
 
-    const handleAddComment = async () => {
+    const handleAddComment = async (e) => {
+        e.preventDefault();
         if (commentText.trim()) {
             try {
                 const response = await PostService.CreateComment({
@@ -57,17 +68,16 @@ const PostShow = () => {
             {isPostLoading ? (
                 <MyLoading />
             ) : postError ? (
-                <div>Error loading post: {postError.message}</div>
+                <div className="error-message">Error loading post: {postError}</div>
             ) : (
                 <PostItem post={post} imgurl={img} />
             )}
-
-            <div>
+            {!postError ?<div>
                 <h3>Комментарии</h3>
                 {isCommLoading ? (
                     <MyLoading />
                 ) : commError ? (
-                    <div>Error loading comments: {commError.message}</div>
+                    <div className="error-message">Error loading comments: {commError}</div>
                 ) : (
                     comments.map((comment, index) => (
                         <Comment
@@ -89,7 +99,9 @@ const PostShow = () => {
                         Добавить комментарий
                     </MyButton>
                 </div>
-            </div>
+            </div> 
+            :''}
+            
         </div>
     );
 };

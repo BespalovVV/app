@@ -49,21 +49,19 @@ function Profile() {
         },
     };
     const [modal, setModal] = useState(false)
-    const createPost = (newPost) => {
-        setPosts([...posts, newPost])
+    const createPost = () => {
         setModal(false)
     }
-    const photoUrl = 'https://animego.org/media/cache/thumbs_250x350/upload/anime/images/66ebd84b4d6a1541820597.jpg'
     return (
         <div style={styles.container}>
             {isUserLoading
                 ? <MyLoading />
                 : <dl className="profile-info">
-                    <img src={photoUrl} alt={`${user.name} ${user.surname}`} style={styles.photo} />
+                    <img src={user.image ? user.image.String : "https://animego.org/media/cache/thumbs_250x350/upload/anime/images/66ebd84b4d6a1541820597.jpg"} alt={`${user.name} ${user.surname}`} style={styles.photo} />
                     <h1>{user.name} {user.surname}</h1>
                     <h2>Возраст: {user.age}</h2>
                     <h3>Описание:</h3>
-                    <h3>{ user.description }</h3>
+                    <h3>{user.description}</h3>
                     <dt>Дата регистрации: {new Date(user.date).toLocaleDateString('ru-RU', options)}</dt>
                 </dl>
             }
@@ -71,7 +69,7 @@ function Profile() {
                 Создать пост
             </MyButton>
             <MyModal visible={modal} setVisible={setModal}>
-                <PostForm create={createPost} />
+                <PostForm createPost={createPost}/>  {/* Убедитесь, что вы передаёте createPost */}
             </MyModal>
             <PostList remove={removePost} posts={posts} title={'Посты пользователя:'} />
         </div>

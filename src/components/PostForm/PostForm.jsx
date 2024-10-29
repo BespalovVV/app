@@ -25,7 +25,15 @@ const PostForm = ({ createPost }) => {
             </div>
             <div>
                 <label>Body</label>
-                <MyInput {...register('body', { required: true })} type="text" placeholder="Enter body" />
+                <textarea style={{
+                    width: '100%',
+                    minHeight: '50px',
+                    resize: 'none', // Отключаем возможность ручного изменения размера
+                    padding: '8px',
+                    borderRadius: '4px',
+                    border: '1px solid #f07c7c',
+                    boxSizing: 'border-box',
+                }} {...register('body', { required: true })} type="text" placeholder="Enter body" />
             </div>
             <div>
                 <label>

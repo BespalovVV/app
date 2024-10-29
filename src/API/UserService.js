@@ -40,4 +40,44 @@ export default class UserService {
         const responce = await axios.get(URL, {headers})
         return responce
     }
+    static async SendInvite() {
+        const token = getToken(); // Получаем токен из localStorage
+        const headers = new Headers();
+        headers.append('Authorization', 'Bearer ' + token);
+        const URL = Endpoint.HOST + 'api/friends';
+        const responce = await axios.get(URL, {headers})
+        return responce
+    }
+    static async AcceptInvite() {
+        const token = getToken(); // Получаем токен из localStorage
+        const headers = new Headers();
+        headers.append('Authorization', 'Bearer ' + token);
+        const URL = Endpoint.HOST + 'api/friends';
+        const responce = await axios.get(URL, {headers})
+        return responce
+    }
+    static async DeleteInvite() {
+        const token = getToken(); // Получаем токен из localStorage
+        const headers = new Headers();
+        headers.append('Authorization', 'Bearer ' + token);
+        const URL = Endpoint.HOST + 'api/friends';
+        const responce = await axios.get(URL, {headers})
+        return responce
+    }
+    static async DeleteFriend() {
+        const token = getToken(); // Получаем токен из localStorage
+        const headers = new Headers();
+        headers.append('Authorization', 'Bearer ' + token);
+        const URL = Endpoint.HOST + 'api/friends';
+        const responce = await axios.get(URL, {headers})
+        return responce
+    }
+    static async GetInvites() {
+        const token = getToken(); // Получаем токен из localStorage
+        const headers = new Headers();
+        headers.append('Authorization', 'Bearer ' + token);
+        const URL = Endpoint.HOST + 'api/invites';
+        const responce = await axios.get(URL, {headers})
+        return responce
+    }
 }

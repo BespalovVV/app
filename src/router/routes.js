@@ -1,5 +1,6 @@
 import About from "../pages/About"
 import FriendsPage from "../pages/Friends"
+import FriendInvites from "../pages/Invites"
 import Login from "../pages/Login"
 import Posts from "../pages/Posts"
 import PostShow from "../pages/PostShow"
@@ -14,6 +15,7 @@ export const privateRoutes = [
     {path: '/profile/:id', component: Profile, exact: true},
     {path: '/search', component: Search, exact: true},
     {path: '/friends', component: FriendsPage, exact: true},
+    {path: '/invites', component: FriendInvites, exact: true},
 ]
 
 export const publicRoutes = [

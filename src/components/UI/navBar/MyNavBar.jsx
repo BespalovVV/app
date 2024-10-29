@@ -25,6 +25,7 @@ function MyNavBar() {
         { name: 'Поиск', path: '/search' },
         { name: 'Друзья', path: '/friends' },
         { name: 'О нас', path: '/about' },
+        { name: 'Приглашения', path: '/invites' },
     ];
     let check = localStorage.getItem('auth');
     if (check == null) {

@@ -36,7 +36,7 @@ const Login = () => {
             <form onSubmit={handleSubmit(login)}>
             <MyInput {...register('email', { required: true })} label="E-mail" type="email" placeholder="Введите E-mail" id="email" name="email" />
             <MyInput {...register('password', { required: true })} label="Пароль" type="password" placeholder="Введите пароль" id="password" name="password" />
-                <MyButton>Enter</MyButton>
+                <MyButton className="green">Enter</MyButton>
             </form>
         </div>
     )

@@ -1,83 +1,148 @@
 import axios from "axios";
-import { getToken } from "./PostService";
 import Endpoint from "./endpoints";
+import { getToken, setToken } from './PostService'; // Импортируем getToken и setToken
+
+// Функция для добавления заголовков авторизации
+function getAuthHeaders() {
+    const token = getToken(); // Получаем токен из localStorage
+    if (!token) {
+        throw new Error("Access token not found");
+    }
+    return {
+        Authorization: `Bearer ${token}`,
+    };
+}
+
+// Получение refresh токена из localStorage
+function getRefreshToken() {
+    const refreshToken = localStorage.getItem('refresh_token'); // Получаем refresh token из localStorage
+    if (!refreshToken) {
+        throw new Error('Refresh token not found');
+    }
+    return refreshToken;
+}
+
+// Функция для обновления access токена
+async function refreshAccessToken() {
+    const refreshToken = getRefreshToken(); // Получаем refresh token из localStorage
+
+    try {
+        const response = await axios.post('http://localhost:8080/refresh', 
+            { refresh_token: refreshToken }, 
+            { withCredentials: true }  // Включаем отправку куки
+        );
+        const newAccessToken = response.data.access_token;
+
+        // Сохраняем новый токен в localStorage
+        setToken('access_token', newAccessToken);
+
+        return newAccessToken;
+    } catch (e) {
+        console.error("Ошибка при обновлении токена:", e);
+        throw new Error("Session expired, please log in again.");
+    }
+}
+
+// Метод для повторного выполнения запроса с обновленным токеном
+async function sendRequestWithRetry(request) {
+    try {
+        const response = await request(); // Пробуем выполнить запрос
+        return response;
+    } catch (e) {
+        if (e.response && e.response.status === 401) {
+            // Ошибка 401 - токен устарел, пробуем обновить токен
+            try {
+                const newAccessToken = await refreshAccessToken();
+                
+                // Повторяем запрос с новым токеном
+                const response = await request(newAccessToken);
+                return response;
+            } catch (refreshError) {
+                // Ошибка при обновлении токена
+                console.error('Ошибка при обновлении токена', refreshError);
+                throw new Error('Session expired, please log in again.');
+            }
+        }
+        throw e; // Если ошибка не 401, пробрасываем её дальше
+    }
+}
 
 export default class UserService {
     static async CreateUser(data) {
-        try {
-            const responce = await axios.post('http://localhost:8080/registration', data)
-            return responce
-        } catch (e) {
-            console.log(e);
-        }
+        return sendRequestWithRetry(async () => {
+            const URL = 'http://localhost:8080/registration';
+            return await axios.post(URL, data, { withCredentials: true });
+        });
     }
+
     static async getUserById(id) {
-        const token = getToken(); // Получаем токен из localStorage
-        const headers = new Headers();
-        headers.append('Authorization', 'Bearer ' + token);
-        const URL = Endpoint.HOST + 'api/users/' + id
-        const responce = await axios.get(URL, {headers})
-        return responce
+        const URL = `${Endpoint.HOST}api/users/${id}`;
+        return sendRequestWithRetry(async (newAccessToken) => {
+            const headers = newAccessToken ? { 'Authorization': `Bearer ${newAccessToken}` } : getAuthHeaders();
+            return await axios.get(URL, { headers, withCredentials: true });
+        });
     }
+
     static async loginUser(data) {
-        const URL = 'http://localhost:8080/login'
-        const responce = await axios.post(URL,data)
-        return responce
+        const URL = 'http://localhost:8080/login';
+        return sendRequestWithRetry(async () => {
+            return await axios.post(URL, data, { withCredentials: true });
+        });
     }
+
     static async GetUsersNotFriend() {
-        const token = getToken(); // Получаем токен из localStorage
-        const headers = new Headers();
-        headers.append('Authorization', 'Bearer ' + token);
-        const URL = Endpoint.HOST + 'api/notfriends';
-        const responce = await axios.get(URL, {headers})
-        return responce
+        const URL = `${Endpoint.HOST}api/notfriends`;
+        return sendRequestWithRetry(async (newAccessToken) => {
+            const headers = newAccessToken ? { 'Authorization': `Bearer ${newAccessToken}` } : getAuthHeaders();
+            return await axios.get(URL, { headers, withCredentials: true });
+        });
     }
+
     static async GetUsersFriend() {
-        const token = getToken(); // Получаем токен из localStorage
-        const headers = new Headers();
-        headers.append('Authorization', 'Bearer ' + token);
-        const URL = Endpoint.HOST + 'api/friends';
-        const responce = await axios.get(URL, {headers})
-        return responce
+        const URL = `${Endpoint.HOST}api/friends`;
+        return sendRequestWithRetry(async (newAccessToken) => {
+            const headers = newAccessToken ? { 'Authorization': `Bearer ${newAccessToken}` } : getAuthHeaders();
+            return await axios.get(URL, { headers, withCredentials: true });
+        });
     }
+
     static async SendInvite() {
-        const token = getToken(); // Получаем токен из localStorage
-        const headers = new Headers();
-        headers.append('Authorization', 'Bearer ' + token);
-        const URL = Endpoint.HOST + 'api/friends';
-        const responce = await axios.get(URL, {headers})
-        return responce
+        const URL = `${Endpoint.HOST}api/friends`;
+        return sendRequestWithRetry(async (newAccessToken) => {
+            const headers = newAccessToken ? { 'Authorization': `Bearer ${newAccessToken}` } : getAuthHeaders();
+            return await axios.post(URL, {}, { headers, withCredentials: true });
+        });
     }
+
     static async AcceptInvite() {
-        const token = getToken(); // Получаем токен из localStorage
-        const headers = new Headers();
-        headers.append('Authorization', 'Bearer ' + token);
-        const URL = Endpoint.HOST + 'api/friends';
-        const responce = await axios.get(URL, {headers})
-        return responce
+        const URL = `${Endpoint.HOST}api/friends`;
+        return sendRequestWithRetry(async (newAccessToken) => {
+            const headers = newAccessToken ? { 'Authorization': `Bearer ${newAccessToken}` } : getAuthHeaders();
+            return await axios.post(URL, {}, { headers, withCredentials: true });
+        });
     }
+
     static async DeleteInvite() {
-        const token = getToken(); // Получаем токен из localStorage
-        const headers = new Headers();
-        headers.append('Authorization', 'Bearer ' + token);
-        const URL = Endpoint.HOST + 'api/friends';
-        const responce = await axios.get(URL, {headers})
-        return responce
+        const URL = `${Endpoint.HOST}api/friends`;
+        return sendRequestWithRetry(async (newAccessToken) => {
+            const headers = newAccessToken ? { 'Authorization': `Bearer ${newAccessToken}` } : getAuthHeaders();
+            return await axios.delete(URL, { headers, withCredentials: true });
+        });
     }
+
     static async DeleteFriend() {
-        const token = getToken(); // Получаем токен из localStorage
-        const headers = new Headers();
-        headers.append('Authorization', 'Bearer ' + token);
-        const URL = Endpoint.HOST + 'api/friends';
-        const responce = await axios.get(URL, {headers})
-        return responce
+        const URL = `${Endpoint.HOST}api/friends`;
+        return sendRequestWithRetry(async (newAccessToken) => {
+            const headers = newAccessToken ? { 'Authorization': `Bearer ${newAccessToken}` } : getAuthHeaders();
+            return await axios.delete(URL, { headers, withCredentials: true });
+        });
     }
+
     static async GetInvites() {
-        const token = getToken(); // Получаем токен из localStorage
-        const headers = new Headers();
-        headers.append('Authorization', 'Bearer ' + token);
-        const URL = Endpoint.HOST + 'api/invites';
-        const responce = await axios.get(URL, {headers})
-        return responce
+        const URL = `${Endpoint.HOST}api/invites`;
+        return sendRequestWithRetry(async (newAccessToken) => {
+            const headers = newAccessToken ? { 'Authorization': `Bearer ${newAccessToken}` } : getAuthHeaders();
+            return await axios.get(URL, { headers, withCredentials: true });
+        });
     }
 }

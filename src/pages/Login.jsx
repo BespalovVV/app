@@ -14,15 +14,16 @@ const Login = () => {
         mode: "onBlur",
     });
     function setToken(token) {
-        localStorage.setItem('token', token);
+        localStorage.setItem('access_token', token);
     }
     const login = (data) => {
         const URL = 'http://localhost:8080/login'
         const response =  axios.post(URL,data)
         .then(function (response){
-            console.log(response.data['Token'])
-            setToken(response.data['Token'])
-            localStorage.setItem('user_id', response.data['ID'])
+
+            setToken(response.data['token'])
+            localStorage.setItem('id', response.data['id'])
+            localStorage.setItem('refresh_token', response.data['refresh_token'])
             setIsAuth(true)
             localStorage.setItem('auth', 'true')
         }).catch(function (response){

@@ -11,14 +11,14 @@ function MyNavBar() {
         setIsAuth(false);
         localStorage.removeItem('auth');
         localStorage.removeItem('token');
-        localStorage.removeItem('user_id');
+        localStorage.removeItem('id');
     }
     const location = useLocation();
     const [isOpen, setIsOpen] = useState(true);
     const toggleNavbar = () => {
         setIsOpen(!isOpen);
     };
-    const profile_link = /profile/ + localStorage.getItem('user_id')
+    const profile_link = /profile/ + localStorage.getItem('id')
     let links = [
         { name: 'Мой профиль', path: profile_link },
         { name: 'Новости', path: '/posts' },

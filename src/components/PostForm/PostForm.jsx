@@ -13,7 +13,6 @@ const PostForm = ({ createPost }) => {
     const onSubmit = async (data) => {
 
         const response = await PostService.CreatePost(data);
-        console.log(response);
         createPost(response.data); // Передаем созданный пост (если необходимо)
     };
 

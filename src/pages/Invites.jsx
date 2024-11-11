@@ -17,30 +17,33 @@ const FriendInvites = () => {
     };
 
     const fetchInvites = async () => {
-        const response = await UserService.GetInvites();
-        setInvites(response.data);
+        try {
+            const response = await UserService.GetInvites();
+            setInvites(response.data);
 
-        const userId = localStorage.getItem('user_id');
+            const userId = localStorage.getItem('id');
+            const received = response.data.filter(invite => invite.to_id == userId);
+            const sent = response.data.filter(invite => invite.from_id == userId);
 
-        const received = response.data.filter(invite => invite.to_id == userId);
-        const sent = response.data.filter(invite => invite.from_id == userId);
+            setSentInvites(sent);
+            setReceivedInvites(received);
 
-        setSentInvites(sent);
-        setReceivedInvites(received);
+            // Загружаем пользователей по их ID
+            const allUserIds = [...new Set([...sent.map(i => i.to_id), ...received.map(i => i.from_id)])];
 
-        // Загружаем пользователей по их ID
-        const allUserIds = [...new Set([...sent.map(i => i.to_id), ...received.map(i => i.from_id)])];
-        
-        // Получаем данные пользователей асинхронно
-        const userPromises = allUserIds.map(id => UserService.getUserById(id));
-        const userResponses = await Promise.all(userPromises);
-        
-        const usersMap = {};
-        userResponses.forEach(userResponse => {
-            usersMap[userResponse.data.id] = userResponse.data; // Предполагается, что у пользователя есть поле id
-        });
+            // Получаем данные пользователей асинхронно
+            const userPromises = allUserIds.map(id => UserService.getUserById(id));
+            const userResponses = await Promise.all(userPromises);
 
-        setUsers(usersMap);
+            const usersMap = {};
+            userResponses.forEach(userResponse => {
+                usersMap[userResponse.data.id] = userResponse.data; // Предполагается, что у пользователя есть поле id
+            });
+
+            setUsers(usersMap);
+        } catch (error) {
+            console.error("Ошибка при загрузке приглашений или пользователей:", error);
+        }
     };
 
     useEffect(() => {
@@ -52,13 +55,13 @@ const FriendInvites = () => {
             <div style={{ display: 'flex', justifyContent: "space-between", marginBottom: '20px' }}>
                 <MyButton
                     onClick={() => handleTabChange('received')}
-                    className='green'
+                    className={activeTab === 'received' ? 'green active' : 'green'}
                 >
                     Полученные
                 </MyButton>
                 <MyButton
                     onClick={() => handleTabChange('sent')}
-                    className='green'
+                    className={activeTab === 'sent' ? 'green active' : 'green'}
                 >
                     Отправленные
                 </MyButton>
@@ -67,31 +70,27 @@ const FriendInvites = () => {
             <div style={{ marginTop: '20px' }}>
                 {activeTab === 'received' && (
                     <ul>
-                        {sentInvites.map((invite) => (
+                        {receivedInvites.map((invite) => (
                             <li key={invite.id}>
-                                {users[invite.to_id] ? (
-                                    <UserCard user={users[invite.to_id]} classV = 'invite b' textV = 'принять' textC = 'отклонить' />
-                                )
-                            :(
-                                <MyLoading/>
-                            )
-                            }
+                                {users[invite.from_id] ? (
+                                    <UserCard user={users[invite.from_id]} classV="invite b" textV="принять" textC="отклонить" />
+                                ) : (
+                                    <MyLoading />
+                                )}
                             </li>
                         ))}
                     </ul>
                 )}
                 {activeTab === 'sent' && (
                     <ul>
-                        {receivedInvites.map((invite) => (
+                        {sentInvites.map((invite) => (
                             <li key={invite.id}>
-                            {users[invite.from_id] ? (
-                                <UserCard user={users[invite.from_id]}  textV = 'отменить' />
-                            )
-                        :(
-                            <MyLoading/>
-                        )
-                        }
-                        </li>
+                                {users[invite.to_id] ? (
+                                    <UserCard user={users[invite.to_id]} textV="отменить" />
+                                ) : (
+                                    <MyLoading />
+                                )}
+                            </li>
                         ))}
                     </ul>
                 )}

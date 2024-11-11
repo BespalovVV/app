@@ -69,32 +69,28 @@ async function sendRequestWithRetry(request) {
 
 export default class UserService {
     static async CreateUser(data) {
-        return sendRequestWithRetry(async () => {
-            const URL = 'http://localhost:8080/registration';
-            return await axios.post(URL, data, { withCredentials: true });
-        });
+        const URL = 'http://localhost:8080/registration';
+        return sendRequestWithRetry(() => axios.post(URL, data, { withCredentials: true }));
     }
 
     static async getUserById(id) {
         const URL = `${Endpoint.HOST}api/users/${id}`;
         return sendRequestWithRetry(async (newAccessToken) => {
             const headers = newAccessToken ? { 'Authorization': `Bearer ${newAccessToken}` } : getAuthHeaders();
-            return await axios.get(URL, { headers, withCredentials: true });
+            return axios.get(URL, { headers, withCredentials: true });
         });
     }
 
     static async loginUser(data) {
         const URL = 'http://localhost:8080/login';
-        return sendRequestWithRetry(async () => {
-            return await axios.post(URL, data, { withCredentials: true });
-        });
+        return sendRequestWithRetry(() => axios.post(URL, data, { withCredentials: true }));
     }
 
     static async GetUsersNotFriend() {
         const URL = `${Endpoint.HOST}api/notfriends`;
         return sendRequestWithRetry(async (newAccessToken) => {
             const headers = newAccessToken ? { 'Authorization': `Bearer ${newAccessToken}` } : getAuthHeaders();
-            return await axios.get(URL, { headers, withCredentials: true });
+            return axios.get(URL, { headers, withCredentials: true });
         });
     }
 
@@ -102,31 +98,35 @@ export default class UserService {
         const URL = `${Endpoint.HOST}api/friends`;
         return sendRequestWithRetry(async (newAccessToken) => {
             const headers = newAccessToken ? { 'Authorization': `Bearer ${newAccessToken}` } : getAuthHeaders();
-            return await axios.get(URL, { headers, withCredentials: true });
+            return axios.get(URL, { headers, withCredentials: true });
         });
     }
 
-    static async SendInvite() {
-        const URL = `${Endpoint.HOST}api/friends`;
+    static async SendInvite(data) {
+        const URL = `${Endpoint.HOST}api/invites`;
         return sendRequestWithRetry(async (newAccessToken) => {
             const headers = newAccessToken ? { 'Authorization': `Bearer ${newAccessToken}` } : getAuthHeaders();
-            return await axios.post(URL, {}, { headers, withCredentials: true });
+            return axios.post(URL, { "to_id": data }, { headers, withCredentials: true });
         });
     }
 
-    static async AcceptInvite() {
-        const URL = `${Endpoint.HOST}api/friends`;
+    static async AcceptInvite(data) {
+        const URL = `${Endpoint.HOST}api/inviteaccept`;
         return sendRequestWithRetry(async (newAccessToken) => {
             const headers = newAccessToken ? { 'Authorization': `Bearer ${newAccessToken}` } : getAuthHeaders();
-            return await axios.post(URL, {}, { headers, withCredentials: true });
+            return axios.post(URL, {"from_id": data}, { headers, withCredentials: true });
         });
     }
 
-    static async DeleteInvite() {
-        const URL = `${Endpoint.HOST}api/friends`;
+    static async DeleteInvite(data) {
+        const URL = `${Endpoint.HOST}api/invites`;
         return sendRequestWithRetry(async (newAccessToken) => {
             const headers = newAccessToken ? { 'Authorization': `Bearer ${newAccessToken}` } : getAuthHeaders();
-            return await axios.delete(URL, { headers, withCredentials: true });
+            return axios.delete(URL, {
+                headers: headers,
+                data: { front_id: data },
+                withCredentials: true
+            });
         });
     }
 
@@ -134,7 +134,7 @@ export default class UserService {
         const URL = `${Endpoint.HOST}api/friends`;
         return sendRequestWithRetry(async (newAccessToken) => {
             const headers = newAccessToken ? { 'Authorization': `Bearer ${newAccessToken}` } : getAuthHeaders();
-            return await axios.delete(URL, { headers, withCredentials: true });
+            return axios.delete(URL, { headers, withCredentials: true });
         });
     }
 
@@ -142,7 +142,7 @@ export default class UserService {
         const URL = `${Endpoint.HOST}api/invites`;
         return sendRequestWithRetry(async (newAccessToken) => {
             const headers = newAccessToken ? { 'Authorization': `Bearer ${newAccessToken}` } : getAuthHeaders();
-            return await axios.get(URL, { headers, withCredentials: true });
+            return axios.get(URL, { headers, withCredentials: true });
         });
     }
 }

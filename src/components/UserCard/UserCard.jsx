@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './UserCard.css'; // Импортируем обычный CSS
 import MyButton from '../UI/button/MyButton';
+import UserService from '../../API/UserService';
 
 const UserCard = ({ user, className, textV, classV, textC }) => {
     const navigate = useNavigate();
@@ -9,21 +10,19 @@ const UserCard = ({ user, className, textV, classV, textC }) => {
     const handleProfileRedirect = () => {
         navigate(`/profile/${user.id}`); // Замените на ваш маршрут профиля
     };
-
     const handleAddFriend = () => {
-        // Логика для добавления в друзья
+        const response = UserService.SendInvite(user.id);
         console.log(`Добавить ${user.name} ${user.surname} в друзья`);
     };
     const handleDeleteInvite = () => {
-        // Логика для удаления из друзей
-        console.log(`Удалить ${user.name} ${user.surname} приглашение`);
+        const response = UserService.DeleteInvite(user.id)
+        console.log(`Отклонить ${user.name} ${user.surname} приглашение`);
     };
     const handleAcceptInvite = () => {
-        // Логика для удаления из друзей
+        const response = UserService.AcceptInvite(user.id)
         console.log(`принять ${user.name} ${user.surname} приглашение`);
     };
     const handleDeleteFriend = () => {
-        // Логика для удаления из друзей
         console.log(`Удалить ${user.name} ${user.surname} из друзья`);
     };
     return (

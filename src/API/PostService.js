@@ -139,4 +139,11 @@ export default class PostService {
             return await axios.delete(URL, { headers, withCredentials: true });
         });
     }
+    static async DeletePost(id) {
+        return sendRequestWithRetry(async () => {
+            const URL = `${Endpoint.HOST}api/posts/${id}`;
+            const headers = getAuthHeaders();
+            return await axios.delete(URL, { headers, withCredentials: true });
+        });
+    }
 }

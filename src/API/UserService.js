@@ -130,8 +130,8 @@ export default class UserService {
         });
     }
 
-    static async DeleteFriend() {
-        const URL = `${Endpoint.HOST}api/friends`;
+    static async DeleteFriend(id) {
+        const URL = `${Endpoint.HOST}api/friends/${id}`;
         return sendRequestWithRetry(async (newAccessToken) => {
             const headers = newAccessToken ? { 'Authorization': `Bearer ${newAccessToken}` } : getAuthHeaders();
             return axios.delete(URL, { headers, withCredentials: true });

@@ -23,6 +23,7 @@ const UserCard = ({ user, className, textV, classV, textC }) => {
         console.log(`принять ${user.name} ${user.surname} приглашение`);
     };
     const handleDeleteFriend = () => {
+        const response = UserService.DeleteFriend(user.id)
         console.log(`Удалить ${user.name} ${user.surname} из друзья`);
     };
     return (

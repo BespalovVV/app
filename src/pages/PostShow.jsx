@@ -68,7 +68,7 @@ const PostShow = () => {
             {isPostLoading ? (
                 <MyLoading />
             ) : postError ? (
-                <div className="error-message">Error loading post: {postError}</div>
+                <div style={{textAlign: 'center'}} className="error-message">Error loading post: {postError}</div>
             ) : (
                 <PostItem post={post} imgurl={img} />
             )}

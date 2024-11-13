@@ -15,6 +15,7 @@ import MyTextarea from '../components/UI/textarea/MyTextarea';
 function Profile() {
     const [user, setUser] = useState({});
     const [posts, setPosts] = useState([]);
+    const [isFriend, setIsFriend] = useState(false);
     const params = useParams();
     const { register, handleSubmit, formState: { errors }, setValue } = useForm({ mode: 'onBlur' });
     const [fetchUserById, isUserLoading, error] = useFetching(async (id) => {
@@ -30,10 +31,15 @@ function Profile() {
         const response = await PostService.GetUserPost(params.id);
         setPosts(response.data);
     });
+    const [fetchIsFriends, isFriendsLoading, errorf] = useFetching(async (id) => {
+        const response = await UserService.IsFriend(params.id);
+        setIsFriend(response.data);
+    });
 
     useEffect(() => {
         fetchUserById();
         fetchPostsById();
+        fetchIsFriends();
     }, [params.id]);
 
     const [modal, setModal] = useState(false);
@@ -63,12 +69,13 @@ function Profile() {
 
     // Обработчик для применения изменений
     const applyChanges = async (data) => {
+        data.age = Number(data.age);
         try {
             const updatedUser = {
                 ...user,
                 ...data,
             };
-            await UserService.updateUser(params.id, updatedUser); // Отправляем PATCH запрос
+            await UserService.UpdateUser(params.id, updatedUser); // Отправляем PATCH запрос
             setUser(updatedUser); // Обновляем данные пользователя
             setIsEditing(false); // Выключаем режим редактирования
         } catch (error) {
@@ -85,6 +92,12 @@ function Profile() {
     const onSubmit = (data) => {
         applyChanges(data); // Применяем изменения через форму
     };
+    const InviteFriend = async () => {
+        UserService.SendInvite(params.id);
+    }
+    const DeleteFriend = async () => {
+        UserService.DeleteFriend(params.id);
+    }
 
     return (
         <div style={styles.container}>
@@ -111,7 +124,7 @@ function Profile() {
                                 type="text"
                                 name="name"
                                 defaultValue={user.name}
-                                {...register('name', { required: "Поле обязательно к заполнению" })} 
+                                {...register('name', { required: "Поле обязательно к заполнению" })}
                             />
                             </div>
                             : user.name}
@@ -152,9 +165,18 @@ function Profile() {
                     <dt>Дата регистрации: {new Date(user.date).toLocaleDateString('ru-RU', { year: "numeric", month: "long", day: "numeric" })}</dt>
                 </dl>
             }
-            {currentUserId === params.id && !isEditing && (
+            {currentUserId === params.id && !isEditing ? (
                 <MyButton className="green" onClick={() => setIsEditing(true)}>
                     Редактировать профиль
+                </MyButton>
+            ) : isFriend ? (
+                <MyButton className="red" onClick={() => DeleteFriend()}>
+                    Удалить из друзей
+                </MyButton>
+                
+            ) : (
+                <MyButton className="green" onClick={() => InviteFriend()}>
+                    Добавить в друзья
                 </MyButton>
             )}
             {isEditing && (

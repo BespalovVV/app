@@ -145,4 +145,18 @@ export default class UserService {
             return axios.get(URL, { headers, withCredentials: true });
         });
     }
+    static async UpdateUser(id, data) {
+        const URL = `${Endpoint.HOST}api/users/${id}`;
+        return sendRequestWithRetry(async (newAccessToken) => {
+            const headers = newAccessToken ? { 'Authorization': `Bearer ${newAccessToken}` } : getAuthHeaders();
+            return axios.patch(URL, data, { headers, withCredentials: true });
+        });
+    }
+    static async IsFriend(id) {
+        const URL = `${Endpoint.HOST}api/friends/${id}`;
+        return sendRequestWithRetry(async (newAccessToken) => {
+            const headers = newAccessToken ? { 'Authorization': `Bearer ${newAccessToken}` } : getAuthHeaders();
+            return axios.get(URL, { headers, withCredentials: true });
+        });
+    }
 }

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import MyButton from '../button/MyButton';
 import { AuthContext } from '../../../context';
@@ -18,6 +18,14 @@ function MyNavBar() {
     const toggleNavbar = () => {
         setIsOpen(!isOpen);
     };
+    useEffect(() => {
+        if (localStorage.getItem('auth')){
+            
+        }
+        else{
+            setIsAuth(false)
+        }
+    }, [location]);
     const profile_link = /profile/ + localStorage.getItem('id')
     let links = [
         { name: 'Мой профиль', path: profile_link },
@@ -32,8 +40,8 @@ function MyNavBar() {
         links = [
             { name: 'О нас', path: '/about' },
             { name: 'Зарегистрироваться', path: '/registration' },
-            
         ]
+        
     }
     const navigate = useNavigate();
     const handleRedirect = () => {

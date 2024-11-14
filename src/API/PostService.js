@@ -20,6 +20,7 @@ export function removeToken() {
 function getAuthHeaders() {
     const token = getToken(); // Получаем токен из localStorage
     if (!token) {
+        localStorage.removeItem('auth');
         throw new Error("Access token not found");
     }
     return {
@@ -31,6 +32,8 @@ function getAuthHeaders() {
 function getRefreshToken() {
     const refreshToken = localStorage.getItem('refresh_token'); // Получаем refresh token из localStorage
     if (!refreshToken) {
+        localStorage.removeItem('auth');
+        
         throw new Error('Refresh token not found');
     }
     return refreshToken;

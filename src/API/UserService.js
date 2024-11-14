@@ -6,6 +6,7 @@ import { getToken, setToken } from './PostService'; // Импортируем ge
 function getAuthHeaders() {
     const token = getToken(); // Получаем токен из localStorage
     if (!token) {
+        localStorage.removeItem('auth');
         throw new Error("Access token not found");
     }
     return {
@@ -17,6 +18,7 @@ function getAuthHeaders() {
 function getRefreshToken() {
     const refreshToken = localStorage.getItem('refresh_token'); // Получаем refresh token из localStorage
     if (!refreshToken) {
+        localStorage.removeItem('auth');
         throw new Error('Refresh token not found');
     }
     return refreshToken;
@@ -35,10 +37,12 @@ async function refreshAccessToken() {
 
         // Сохраняем новый токен в localStorage
         setToken('access_token', newAccessToken);
+        
 
         return newAccessToken;
     } catch (e) {
         console.error("Ошибка при обновлении токена:", e);
+        localStorage.removeItem('auth');
         throw new Error("Session expired, please log in again.");
     }
 }

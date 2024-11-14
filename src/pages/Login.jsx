@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MyInput from "../components/UI/input/MyInput";
 import MyButton from "../components/UI/button/MyButton";
@@ -7,12 +7,12 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 
 const Login = () => {
-    const { setIsAuth } = useContext(AuthContext); // Получаем функцию для установки состояния авторизации
+    const { setIsAuth } = useContext(AuthContext);
     const { register, handleSubmit, formState: { errors } } = useForm({
-        mode: "onBlur", // Переход к валидации при потере фокуса
+        mode: "onBlur",
     });
-
-    const navigate = useNavigate(); // Хук для редиректа
+    const [errorMessage, setErrorMessage] = useState("");
+    const navigate = useNavigate();
 
     function setToken(token) {
         localStorage.setItem('access_token', token);
@@ -23,27 +23,24 @@ const Login = () => {
 
         try {
             const response = await axios.post(URL, data);
-            // Сохраняем данные в localStorage
             setToken(response.data.token);
             localStorage.setItem('id', response.data.id);
             localStorage.setItem('refresh_token', response.data.refresh_token);
-
-            // Обновляем состояние авторизации
             setIsAuth(true);
             localStorage.setItem('auth', 'true');
-
-            // Редиректим пользователя на страницу /posts
             navigate("/posts");
 
         } catch (error) {
             console.error(error);
-            setIsAuth(false); // В случае ошибки сбрасываем авторизацию
+            setIsAuth(false);
+            setErrorMessage("Неверный логин или пароль!");
         }
     };
 
     return (
         <div>
             <h1>Вход</h1>
+            {errorMessage && <h4 style={{ color: "red" }}>{errorMessage}</h4>}
             <form onSubmit={handleSubmit(login)}>
                 <div>
                     Email
@@ -82,7 +79,7 @@ const Login = () => {
                         placeholder="Введите пароль"
                         id="password"
                         name="password"
-                        autoComplete="current-password"  // Атрибут autocomplete для пароля
+                        autoComplete="current-password" 
                     />
                     <div style={{ height: 40 }}>
                     {errors.password && <p style={{ color: 'red' }}>{errors.password.message}</p>}

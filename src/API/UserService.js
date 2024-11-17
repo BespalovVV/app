@@ -106,11 +106,12 @@ export default class UserService {
         });
     }
 
-    static async SendInvite(data) {
+    static async SendInvite(id) {
         const URL = `${Endpoint.HOST}api/invites`;
+        id = Number(id);
         return sendRequestWithRetry(async (newAccessToken) => {
             const headers = newAccessToken ? { 'Authorization': `Bearer ${newAccessToken}` } : getAuthHeaders();
-            return axios.post(URL, { "to_id": data }, { headers, withCredentials: true });
+            return axios.post(URL, { "to_id": id }, { headers, withCredentials: true });
         });
     }
 

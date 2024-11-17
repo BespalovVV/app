@@ -111,7 +111,7 @@ export default class PostService {
     }
 
     static async CreatePost(data) {
-        data.isprivate = data.isprivate === 'true';
+        data.isprivate = data.isprivate === true;
         return sendRequestWithRetry(async () => {
             const URL = `${Endpoint.HOST}api/posts`;
             const headers = getAuthHeaders();

@@ -127,10 +127,8 @@ function Profile() {
                                 {...register('name', { required: "Поле обязательно к заполнению" })}
                             />
                             </div>
-                            : user.name}
-                        {errors?.name && <p style={{ color: 'red' }}>{errors?.name?.message}</p>}
-
-                        {isEditing
+                            : user.name} 
+                        {errors?.name && <p style={{ color: 'red' }}>{errors?.name?.message}</p>} {isEditing
                             ? <div>Фамилия: <MyInput
                                 type="text"
                                 name="surname"
@@ -140,6 +138,8 @@ function Profile() {
                             </div>
                             : user.surname}
                         {errors?.surname && <p style={{ color: 'red' }}>{errors?.surname?.message}</p>}
+                            
+                        
                     </h1>
                     <h2>
                         Возраст: {isEditing

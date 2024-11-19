@@ -127,7 +127,7 @@ function Profile() {
                                 {...register('name', { required: "Поле обязательно к заполнению" })}
                             />
                             </div>
-                            : user.name} 
+                            : user.name}
                         {errors?.name && <p style={{ color: 'red' }}>{errors?.name?.message}</p>} {isEditing
                             ? <div>Фамилия: <MyInput
                                 type="text"
@@ -138,8 +138,8 @@ function Profile() {
                             </div>
                             : user.surname}
                         {errors?.surname && <p style={{ color: 'red' }}>{errors?.surname?.message}</p>}
-                            
-                        
+
+
                     </h1>
                     <h2>
                         Возраст: {isEditing
@@ -173,12 +173,13 @@ function Profile() {
                 <MyButton className="red" onClick={() => DeleteFriend()}>
                     Удалить из друзей
                 </MyButton>
-                
-            ) : (
+
+            ) : !currentUserId === params.id ? (
                 <MyButton className="green" onClick={() => InviteFriend()}>
                     Добавить в друзья
                 </MyButton>
-            )}
+            ) : <></>
+            }
             {isEditing && (
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div>
@@ -191,9 +192,11 @@ function Profile() {
                     </div>
                 </form>
             )}
-            <MyButton className="green" onClick={() => setModal(true)}>
-                Создать пост
-            </MyButton>
+            {currentUserId === params.id ?
+                <MyButton className="green" onClick={() => setModal(true)}>
+                    Создать пост
+                </MyButton>
+                : <></>}
             <MyModal visible={modal} setVisible={setModal}>
                 <PostForm createPost={() => setModal(false)} />
             </MyModal>

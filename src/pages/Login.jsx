@@ -5,6 +5,7 @@ import MyButton from "../components/UI/button/MyButton";
 import { AuthContext } from "../context";
 import axios from "axios";
 import { useForm } from "react-hook-form";
+import Endpoint from "../API/endpoints";
 
 const Login = () => {
     const { setIsAuth } = useContext(AuthContext);
@@ -19,7 +20,7 @@ const Login = () => {
     }
 
     const login = async (data) => {
-        const URL = 'http://localhost:8080/login';
+        const URL = `${Endpoint.HOST}login`;
 
         try {
             const response = await axios.post(URL, data);

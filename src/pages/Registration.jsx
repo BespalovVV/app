@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import MyButton from "../components/UI/button/MyButton";
 import MyInput from "../components/UI/input/MyInput";
+import Endpoint from "../API/endpoints";
 
 const Registration = () => {
     const { register, formState: { errors, isValid }, handleSubmit, reset, watch } = useForm({
@@ -13,7 +14,7 @@ const Registration = () => {
         data.age = Number(data.age);
         console.log(data);
         try {
-            axios.post('http://localhost:8080/registration', data);
+            axios.post(`${Endpoint.HOST}registration`, data);
             reset();
         } catch (e) {
             console.log(e);
@@ -102,11 +103,16 @@ const Registration = () => {
                             min: { value: 18, message: "Слишком мало" },
                             max: { value: 130, message: "Слишком много" }
                         })}
+                        pattern="^[0-9]*$" 
                         label="Возраст"
-                        type="number"
+                        type="text" 
                         placeholder="Введите возраст"
                         id="age"
                         name="age"
+                        onInput={(e) => {
+                            e.target.value = e.target.value.replace(/[^0-9]/g, ''); 
+                        }}
+                        inputMode="numeric"
                     />
                 </label>
                 <div style={{ height: 40 }}>

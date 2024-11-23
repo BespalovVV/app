@@ -144,10 +144,17 @@ function Profile() {
                     <h2>
                         Возраст: {isEditing
                             ? <MyInput
-                                type="number"
+                                pattern="^[0-9]*$" 
                                 name="age"
                                 defaultValue={user.age}
-                                {...register('age', { required: "Поле обязательно к заполнению", min: 18, max: 130 })}
+                                {...register('age', { required: "Поле обязательно к заполнению", pattern: {
+                                    value: /^\d+$/,
+                                    message: "Некорректный формат возраста"
+                                }, min: 18, max: 130 })}
+                                onInput={(e) => {
+                                    e.target.value = e.target.value.replace(/[^0-9]/g, ''); 
+                                }}
+                                inputMode="numeric"
                             />
                             : user.age}
                         {errors?.age && <p style={{ color: 'red' }}>{errors?.age?.message}</p>}

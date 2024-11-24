@@ -23,8 +23,8 @@ const FriendsPage = () => {
     }, [])
 
     return (
-        <div>
-            <h1>Поиск друзей</h1>
+        <div style={{margin: '3%'}}>
+            <h1 style={{textAlign: 'center'}}>Поиск друзей</h1>
             <MyInput
                 type="text"
                 placeholder="Введите имя или фамилию"

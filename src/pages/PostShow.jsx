@@ -41,12 +41,12 @@ const PostShow = () => {
         if (commentText.trim()) {
             try {
                 const response = await PostService.CreateComment({
-                    owner_id: localStorage.getItem('user_id'),
+                    owner_id: localStorage.getItem('id'),
                     body: commentText,
                     post_id: post.id
                 });
                 const newComment = { 
-                    owner_id: localStorage.getItem('user_id'), 
+                    owner_id: localStorage.getItem('id'), 
                     body: commentText, 
                     post_id: post.id 
                 };

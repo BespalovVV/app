@@ -69,7 +69,7 @@ const Registration = () => {
                         placeholder="Введите пароль"
                         id="password"
                         name="password"
-                        autoComplete="new-password"  // Атрибут autocomplete для пароля
+                        autoComplete="new-password" 
                     />
                 </label>
                 <div style={{ height: 40 }}>

@@ -1,12 +1,11 @@
 import React from 'react';
-import './Comment.css'; // Импортируйте стили, если нужно
+import './Comment.css';
 import MyButton from '../UI/button/MyButton';
 import PostService from '../../API/PostService';
 
 const Comment = ({...props}) => {
     const deleteComment = async () => {
         const response = await PostService.DeleteComment(props.comment.id);
-        
     };
     return (
         <div className="comment">
@@ -14,7 +13,7 @@ const Comment = ({...props}) => {
                 {props.username}
             </a>
             
-            {props.comment.owner_id == localStorage.getItem('user_id') || props.post == localStorage.getItem('user_id')
+            {props.comment.owner_id === Number(localStorage.getItem('id')) || props.post === Number(localStorage.getItem('id'))
                 ? <div>
                     <p className="comment-text">{props.comment.body}</p>
                     <MyButton className="red" onClick={deleteComment}>Удалить</MyButton>

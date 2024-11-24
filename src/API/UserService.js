@@ -1,10 +1,9 @@
 import axios from "axios";
 import Endpoint from "./endpoints";
-import { getToken, setToken } from './PostService'; // Импортируем getToken и setToken
+import { getToken, setToken } from './PostService';
 
-// Функция для добавления заголовков авторизации
 function getAuthHeaders() {
-    const token = getToken(); // Получаем токен из localStorage
+    const token = getToken(); 
     if (!token) {
         localStorage.removeItem('auth');
         throw new Error("Access token not found");
@@ -14,9 +13,8 @@ function getAuthHeaders() {
     };
 }
 
-// Получение refresh токена из localStorage
 function getRefreshToken() {
-    const refreshToken = localStorage.getItem('refresh_token'); // Получаем refresh token из localStorage
+    const refreshToken = localStorage.getItem('refresh_token'); 
     if (!refreshToken) {
         localStorage.removeItem('auth');
         throw new Error('Refresh token not found');
@@ -24,21 +22,17 @@ function getRefreshToken() {
     return refreshToken;
 }
 
-// Функция для обновления access токена
 async function refreshAccessToken() {
-    const refreshToken = getRefreshToken(); // Получаем refresh token из localStorage
+    const refreshToken = getRefreshToken(); 
 
     try {
-        const response = await axios.post('http://localhost:8080/refresh', 
+        const response = await axios.post(`${Endpoint.HOST}/refresh`, 
             { refresh_token: refreshToken }, 
-            { withCredentials: true }  // Включаем отправку куки
+            { withCredentials: true }  
         );
         const newAccessToken = response.data.access_token;
-
-        // Сохраняем новый токен в localStorage
         setToken('access_token', newAccessToken);
         
-
         return newAccessToken;
     } catch (e) {
         console.error("Ошибка при обновлении токена:", e);
@@ -47,22 +41,17 @@ async function refreshAccessToken() {
     }
 }
 
-// Метод для повторного выполнения запроса с обновленным токеном
 async function sendRequestWithRetry(request) {
     try {
-        const response = await request(); // Пробуем выполнить запрос
+        const response = await request(); 
         return response;
     } catch (e) {
         if (e.response && e.response.status === 401) {
-            // Ошибка 401 - токен устарел, пробуем обновить токен
             try {
                 const newAccessToken = await refreshAccessToken();
-                
-                // Повторяем запрос с новым токеном
                 const response = await request(newAccessToken);
                 return response;
             } catch (refreshError) {
-                // Ошибка при обновлении токена
                 console.error('Ошибка при обновлении токена', refreshError);
                 throw new Error('Session expired, please log in again.');
             }
@@ -73,7 +62,7 @@ async function sendRequestWithRetry(request) {
 
 export default class UserService {
     static async CreateUser(data) {
-        const URL = 'http://localhost:8080/registration';
+        const URL = `${Endpoint.HOST}/registration`;
         return sendRequestWithRetry(() => axios.post(URL, data, { withCredentials: true }));
     }
 
@@ -86,7 +75,7 @@ export default class UserService {
     }
 
     static async loginUser(data) {
-        const URL = 'http://localhost:8080/login';
+        const URL = `${Endpoint.HOST}/login`;
         return sendRequestWithRetry(() => axios.post(URL, data, { withCredentials: true }));
     }
 

@@ -4,6 +4,10 @@
     border-radius: 50%;
     border: 5px dashed #FF6F61;
     animation: rotate 0.5s infinite linear;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
 }
 
 @keyframes rotate {

@@ -21,7 +21,6 @@ const Registration = () => {
         }
     };
 
-    // Получаем значение пароля для проверки на совпадение
     const password = watch("password");
 
     return (
@@ -88,7 +87,7 @@ const Registration = () => {
                         placeholder="Подтвердите пароль"
                         id="confirmPassword"
                         name="confirmPassword"
-                        autoComplete="current-password"  // Атрибут autocomplete для пароля
+                        autoComplete="current-password" 
                     />
                 </label>
                 <div style={{ height: 40 }}>

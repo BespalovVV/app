@@ -1,24 +1,21 @@
 import axios from "axios";
 import Endpoint from "./endpoints";
 
-// Функция для получения токена из localStorage
+
 export function getToken() {
-    return localStorage.getItem('access_token'); // Получаем токен из localStorage
+    return localStorage.getItem('access_token'); 
 }
 
-// Функция для установки токена в localStorage
 export function setToken(tokenName, tokenValue) {
-    localStorage.setItem(tokenName, tokenValue); // Сохраняем токен в localStorage
+    localStorage.setItem(tokenName, tokenValue); 
 }
 
-// Функция для удаления токена из localStorage
 export function removeToken() {
-    localStorage.removeItem('access_token'); // Удаляем токен из localStorage
+    localStorage.removeItem('access_token'); 
 }
 
-// Общий метод для добавления заголовков авторизации
 function getAuthHeaders() {
-    const token = getToken(); // Получаем токен из localStorage
+    const token = getToken(); 
     if (!token) {
         localStorage.removeItem('auth');
         throw new Error("Access token not found");
@@ -28,9 +25,8 @@ function getAuthHeaders() {
     };
 }
 
-// Получение refresh токена из localStorage
 function getRefreshToken() {
-    const refreshToken = localStorage.getItem('refresh_token'); // Получаем refresh token из localStorage
+    const refreshToken = localStorage.getItem('refresh_token'); 
     if (!refreshToken) {
         localStorage.removeItem('auth');
         
@@ -39,18 +35,15 @@ function getRefreshToken() {
     return refreshToken;
 }
 
-// Функция для обновления access токена
 async function refreshAccessToken() {
-    const refreshToken = getRefreshToken(); // Получаем refresh token из localStorage
+    const refreshToken = getRefreshToken(); 
     try {
-        // Запрос на сервер для обновления access токена с использованием refresh токена
-        const response = await axios.post('http://localhost:8080/refresh', 
+        const response = await axios.post(`${Endpoint.HOST}/refresh`, 
             { refresh_token:  refreshToken }, 
-            { withCredentials: true }  // Включаем отправку куки
+            { withCredentials: true } 
         );
         const newAccessToken = response.data.access_token;
         
-        // Сохраняем новый токен в localStorage
         setToken('access_token', newAccessToken);
         localStorage.setItem('refresh_token', response.data['refresh_token'])
 
@@ -61,27 +54,23 @@ async function refreshAccessToken() {
     }
 }
 
-// Метод для повторного выполнения запроса с обновленным токеном
 async function sendRequestWithRetry(request) {
     try {
-        const response = await request(); // Пробуем выполнить запрос
+        const response = await request(); 
         return response;
     } catch (e) {
         if (e.response && e.response.status === 401) {
-            // Ошибка 401 - токен устарел, пробуем обновить токен
             try {
                 const newAccessToken = await refreshAccessToken();
                 
-                // Повторяем запрос с новым токеном
                 const response = await request(newAccessToken);
                 return response;
             } catch (refreshError) {
-                // Ошибка при обновлении токена
                 console.error('Ошибка при обновлении токена', refreshError);
                 throw new Error('Session expired, please log in again.');
             }
         }
-        throw e; // Если ошибка не 401, пробрасываем её дальше
+        throw e;
     }
 }
 
@@ -90,7 +79,7 @@ export default class PostService {
         return sendRequestWithRetry(async () => {
             const URL = Endpoint.HOST + 'api/posts';
             const headers = getAuthHeaders();
-            return await axios.get(URL, { headers, withCredentials: true }); // Включаем отправку куки
+            return await axios.get(URL, { headers, withCredentials: true }); 
         });
     }
 

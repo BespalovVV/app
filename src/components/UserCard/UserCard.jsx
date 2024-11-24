@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './UserCard.css'; // Импортируем обычный CSS
+import './UserCard.css'; 
 import MyButton from '../UI/button/MyButton';
 import UserService from '../../API/UserService';
 
@@ -8,7 +8,7 @@ const UserCard = ({ user, className, textV, classV, textC }) => {
     const navigate = useNavigate();
 
     const handleProfileRedirect = () => {
-        navigate(`/profile/${user.id}`); // Замените на ваш маршрут профиля
+        navigate(`/profile/${user.id}`); 
     };
     const handleAddFriend = () => {
         const response = UserService.SendInvite(user.id);

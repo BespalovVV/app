@@ -1,6 +1,6 @@
 .navbar {
     display: flex;
-    flex-direction: row; /* По умолчанию горизонтально */
+    flex-direction: row; 
     align-items: flex-start;
     background-color: #010714;
     padding: 1rem;
@@ -26,13 +26,13 @@
     max-width: 0;
     padding: 0;
     margin-top: 1rem;
-    transition: max-width 0.3s ease;
+    transition: max-height 0.3s ease;
     overflow: hidden;
-    max-height: 0;
+    max-height: 100;
 }
 
 .links.show {
-    max-height: 200px;
+    max-height: 400px;
     max-width: 100%;
 }
 

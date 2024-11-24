@@ -20,13 +20,14 @@
 
 .user-name {
     color: #ff2faf;
-    
+    display: flex;
+    margin-top: 5px;
+    text-align: center;
     text-decoration: none;
-    
-    font-weight: bold;
+    font-style: italic;
+    font-weight: normal;
     font-size: 1.5rem;
     transition: color 0.3s;
-    
 }
 
 .user-name:hover {
@@ -51,8 +52,8 @@
     color: #333;
 }
 .user-avatar {
-    width: 30px;
-    height: 30px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     margin-right: 10px;
 }

@@ -6,6 +6,7 @@ import { AuthContext } from "../context";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import Endpoint from "../API/endpoints";
+import '../styles/LoginRegister.css';
 
 const Login = () => {
     const { setIsAuth } = useContext(AuthContext);
@@ -18,7 +19,6 @@ const Login = () => {
     function setToken(token) {
         localStorage.setItem('access_token', token);
     }
-
     const login = async (data) => {
         const URL = `${Endpoint.HOST}login`;
 

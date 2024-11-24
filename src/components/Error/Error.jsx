@@ -7,7 +7,7 @@ const Error = () => {
     const navigate = useNavigate();
 
     const handlePostsRedirect = () => {
-        navigate(`/posts`); // Замените на ваш маршрут профиля
+        navigate(`/posts`);
     };
     
     return (

@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import './PostForm.css'; // Импортируем стили
+import './PostForm.css'; 
 import PostService from "../../API/PostService";
 import MyButton from "../UI/button/MyButton";
 import MyInput from "../UI/input/MyInput";
@@ -13,7 +13,7 @@ const PostForm = ({ createPost }) => {
     const onSubmit = async (data) => {
 
         const response = await PostService.CreatePost(data);
-        createPost(response.data); // Передаем созданный пост (если необходимо)
+        createPost(response.data); 
     };
 
     return (
@@ -27,7 +27,7 @@ const PostForm = ({ createPost }) => {
                 <textarea style={{
                     width: '100%',
                     minHeight: '50px',
-                    resize: 'none', // Отключаем возможность ручного изменения размера
+                    resize: 'none',
                     padding: '8px',
                     borderRadius: '4px',
                     border: '1px solid #f07c7c',

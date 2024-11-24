@@ -10,7 +10,7 @@ const FriendInvites = () => {
     const [sentInvites, setSentInvites] = useState([]);
     const [receivedInvites, setReceivedInvites] = useState([]);
     const [activeTab, setActiveTab] = useState('received');
-    const [users, setUsers] = useState({}); // Состояние для пользователей
+    const [users, setUsers] = useState({}); 
 
     const handleTabChange = (tab) => {
         setActiveTab(tab);
@@ -21,23 +21,21 @@ const FriendInvites = () => {
             const response = await UserService.GetInvites();
             setInvites(response.data);
 
-            const userId = localStorage.getItem('id');
-            const received = response.data.filter(invite => invite.to_id == userId);
-            const sent = response.data.filter(invite => invite.from_id == userId);
+            const userId = Number(localStorage.getItem('id'));
+            const received = response.data.filter(invite => invite.to_id === userId);
+            const sent = response.data.filter(invite => invite.from_id === userId);
 
             setSentInvites(sent);
             setReceivedInvites(received);
 
-            // Загружаем пользователей по их ID
             const allUserIds = [...new Set([...sent.map(i => i.to_id), ...received.map(i => i.from_id)])];
 
-            // Получаем данные пользователей асинхронно
             const userPromises = allUserIds.map(id => UserService.getUserById(id));
             const userResponses = await Promise.all(userPromises);
 
             const usersMap = {};
             userResponses.forEach(userResponse => {
-                usersMap[userResponse.data.id] = userResponse.data; // Предполагается, что у пользователя есть поле id
+                usersMap[userResponse.data.id] = userResponse.data; 
             });
 
             setUsers(usersMap);

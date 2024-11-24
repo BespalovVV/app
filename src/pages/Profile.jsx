@@ -14,6 +14,7 @@ import MyTextarea from '../components/UI/textarea/MyTextarea';
 
 function Profile() {
     const [user, setUser] = useState({});
+    const [users, setUsers] = useState({});
     const [posts, setPosts] = useState([]);
     const [isFriend, setIsFriend] = useState(false);
     const params = useParams();
@@ -26,10 +27,19 @@ function Profile() {
         setValue('age', response.data.age);
         setValue('description', response.data.description || '');
         setValue('image', response.data.image.String || '');
+        
     });
     const [fetchPostsById, isPostsLoading, errorp] = useFetching(async (id) => {
         const response = await PostService.GetUserPost(params.id);
         setPosts(response.data);
+        const userIds = [...new Set(response.data.map(post => post.owner_id))];
+        const usersResponse = await UserService.GetUsersByIds(userIds);
+        const usersData = usersResponse.data.reduce((acc, user) => {
+            acc[user.id] = user; 
+            return acc;
+        }, {});
+
+        setUsers(usersData);
     });
     const [fetchIsFriends, isFriendsLoading, errorf] = useFetching(async (id) => {
         const response = await UserService.IsFriend(params.id);
@@ -207,7 +217,7 @@ function Profile() {
             <MyModal visible={modal} setVisible={setModal}>
                 <PostForm createPost={() => setModal(false)} />
             </MyModal>
-            <PostList remove={removePost} posts={posts} title={'Посты пользователя:'} />
+            <PostList remove={removePost} posts={posts} title={'Посты пользователя:'} users={users} />
         </div>
     );
 }

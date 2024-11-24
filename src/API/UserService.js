@@ -67,7 +67,7 @@ async function sendRequestWithRetry(request) {
                 throw new Error('Session expired, please log in again.');
             }
         }
-        throw e; // Если ошибка не 401, пробрасываем её дальше
+        throw e; 
     }
 }
 
@@ -162,6 +162,13 @@ export default class UserService {
         return sendRequestWithRetry(async (newAccessToken) => {
             const headers = newAccessToken ? { 'Authorization': `Bearer ${newAccessToken}` } : getAuthHeaders();
             return axios.get(URL, { headers, withCredentials: true });
+        });
+    }
+    static async GetUsersByIds(ids) {
+        const URL = `${Endpoint.HOST}api/users/ids`;
+        return sendRequestWithRetry(async (newAccessToken) => {
+            const headers = newAccessToken ? { 'Authorization': `Bearer ${newAccessToken}` } : getAuthHeaders();
+            return axios.post(URL, {"ids": ids}, { headers, withCredentials: true });
         });
     }
 }

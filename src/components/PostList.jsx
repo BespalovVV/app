@@ -1,12 +1,13 @@
 import React from "react";
 import PostItem from "./PostItem/PostItem";
 
-const PostList = ({ posts, title, remove }) => {
+const PostList = ({ posts, users, title, remove }) => {
     if (!posts.length) {
         return (
             <h1 style={{ textAlign: 'center' }}>Новости не найдены</h1>
-        )
+        );
     }
+
     return (
         <div>
             <h1 style={{ textAlign: 'center', width: '100%' }}>{title}</h1>
@@ -16,11 +17,12 @@ const PostList = ({ posts, title, remove }) => {
                     remove={remove} 
                     number={index + 1} 
                     post={post}
-                    imgurl={post.image ? post.image.String : ""}
+                    user={users[post.owner_id]}
+                    imgurl={post.image ? post.image.String : ""} 
                 />
             ))}
         </div>
-    )
+    );
 }
 
 export default PostList;
